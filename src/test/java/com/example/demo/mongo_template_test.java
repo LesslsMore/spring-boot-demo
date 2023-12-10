@@ -1,8 +1,8 @@
 package com.example.demo;
 
-import com.example.demo.entity.PageDO;
+import com.example.demo.entity.bili.ItemDO;
 import com.example.demo.entity.User;
-import com.example.demo.service.QueryService;
+import com.example.demo.service.bili.MongodbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,14 +13,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static com.example.demo.Utils.import_json_bvid;
+import static com.example.demo.common.Utils.import_json_bvid;
 
 @SpringBootTest
 public class mongo_template_test {
     @Autowired
     private MongoTemplate mongoTemplate;
     @Autowired
-    private QueryService queryService;
+    private MongodbService mongodbService;
 
     @Test
     public void create() {
@@ -37,10 +37,10 @@ public class mongo_template_test {
         String filePath = "D:\\T\\Documents\\VSCode\\js\\bili\\up\\37974444\\bvid\\BV1a34y167AZ.json";
 //        new Path(filePath);
         Path path = Paths.get(filePath);
-        List<PageDO> pages = import_json_bvid(path);
+        List<ItemDO> pages = import_json_bvid(path);
         System.out.println(pages);
         pages.forEach(pageDO -> {
-            PageDO pageDO1 = mongoTemplate.insert(pageDO);
+            ItemDO pageDO1 = mongoTemplate.insert(pageDO);
             System.out.println(pageDO1);
         });
     }
@@ -50,7 +50,7 @@ public class mongo_template_test {
         String name = "node";
         int pageNo = 1;
         int pageSize = 10;
-        String query = queryService.query(name, pageNo, pageSize);
+        String query = mongodbService.query(name, pageNo, pageSize);
         System.out.println(query.toString());
     }
 //    db.User.find()
