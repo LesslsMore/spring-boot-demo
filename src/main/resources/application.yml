@@ -2,15 +2,22 @@ server:
   port: 8088
 
 spring:
-  data:
-    mongodb:
-      uri: mongodb://127.0.0.1:27017/bili
+#  data:
+#    mongodb:
+#      uri: mongodb://127.0.0.1:27017/bili
+#      uri: mongodb+srv://gg5083162:SF5v36BVvvmnGJhw@cluster0.vmvv8rg.mongodb.net/
+
+#      SF5v36BVvvmnGJhw
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/bili?serverTimezone=GMT%2B8
     username: root
     password: 123456
+
+#  datasource:
+#    driver-class-name: org.sqlite.JDBC
+#    url: jdbc:sqlite::resource:sqlite/music.db
 
   redis:
     host: localhost

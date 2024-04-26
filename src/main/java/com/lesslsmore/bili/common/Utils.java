@@ -2,8 +2,9 @@ package com.lesslsmore.bili.common;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.lesslsmore.bili.entity.bili.Data;
-import com.lesslsmore.bili.entity.bili.PageDO;
+import com.lesslsmore.bili.entity.video.InfoPagesExt;
+import com.lesslsmore.bili.entity.video.InfoData;
+import com.lesslsmore.bili.entity.video.InfoResp;
 import org.springframework.beans.BeanUtils;
 
 import java.io.File;
@@ -16,35 +17,49 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Utils {
-    public static List<PageDO> import_json_bvid(Path filePath) throws IOException {
+//    public static List<PageDO> import_json_bvid(Path filePath) throws IOException {
+//        String jsonString = readFile(filePath);
+//        Data data = str2data(jsonString);
+//        List<PageDO> pageDOList = data2page(data);
+//        return pageDOList;
+//    }
+
+    public static String readFile(String filePath) throws IOException {
+        File file = new File(filePath);
+        byte[] bytes = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
+        String jsonString = new String(bytes);
+        return jsonString;
+    }
+
+    private static String readFile(Path filePath) throws IOException {
         File file = new File(filePath.toString());
         byte[] bytes = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
         String jsonString = new String(bytes);
-        Data data = str2data(jsonString);
-        List<PageDO> pageDOList = data2page(data);
-        return pageDOList;
+        return jsonString;
     }
 
-    public static Data str2data(String jsonString) {
+    public static InfoData str2data(String jsonString) {
         JSONObject jsonObject = JSON.parseObject(jsonString);
         JSONObject data = jsonObject.getJSONObject("data");
-        Data biliData = data.toJavaObject(Data.class);
+        InfoData biliData = data.toJavaObject(InfoData.class);
         return biliData;
     }
 
-    public static List<PageDO> data2page(Data data) {
-        List<PageDO> pageDOList = data.getPages().stream().map(biliPage -> {
-            PageDO pageDO = new PageDO();
-            BeanUtils.copyProperties(biliPage, pageDO);
+    public static List<InfoPagesExt> resp2infoPagesExts(InfoResp resp) {
+        InfoData data = resp.getData();
 
-            pageDO.setBvid(data.getBvid());
-            pageDO.setView(data.getStat().getView());
-            pageDO.setMid(data.getOwner().getMid());
-            pageDO.setName(data.getOwner().getName());
-            pageDO.setUrl(String.format("https://www.bilibili.com/video/%s?p=%d", data.getBvid(), pageDO.getPage()));
-            return pageDO;
+        List<InfoPagesExt> infoPagesExtList = data.getPages().stream().map(page -> {
+            InfoPagesExt infoPagesExt = new InfoPagesExt();
+            BeanUtils.copyProperties(page, infoPagesExt);
+
+            infoPagesExt.setBvid(data.getBvid());
+            infoPagesExt.setView(data.getStat().getView());
+            infoPagesExt.setMid(data.getOwner().getMid());
+            infoPagesExt.setName(data.getOwner().getName());
+            infoPagesExt.setUrl(String.format("https://www.bilibili.com/video/%s?p=%d", data.getBvid(), infoPagesExt.getPage()));
+            return infoPagesExt;
         }).collect(Collectors.toList());
-        return pageDOList;
+        return infoPagesExtList;
     }
 
     public static List<Path> walk_dir(Path p) throws IOException {
