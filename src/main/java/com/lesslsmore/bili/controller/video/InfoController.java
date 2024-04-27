@@ -10,6 +10,7 @@ import com.lesslsmore.bili.entity.video.InfoResp;
 import com.lesslsmore.bili.mapper.SpaceVlistMapper;
 import com.lesslsmore.bili.service.InfoPagesExtService;
 import com.lesslsmore.bili.service.SpaceVlistService;
+import com.lesslsmore.bili.service.user.SpaceService;
 import com.lesslsmore.bili.service.video.InfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static com.lesslsmore.bili.common.API.*;
 import static com.lesslsmore.bili.common.Utils.resp2infoPagesExts;
@@ -28,6 +30,8 @@ import static com.lesslsmore.bili.common.Utils.resp2infoPagesExts;
 public class InfoController {
     @Autowired
     public InfoService infoService;
+    @Autowired
+    public SpaceService spaceService;
 
     @PostMapping("/info")
     public Result info(@RequestParam String bvid) {
@@ -35,9 +39,17 @@ public class InfoController {
         return Result.ok(size);
     }
 
-    @PostMapping("/info")
-    public Result infos() {
-        int size = infoService.saveVideoInfos();
+    @PostMapping("/infos")
+    public Result infos() throws ExecutionException, InterruptedException {
+        List<String> bvids = spaceService.getBvids();
+        int size = infoService.saveVideoInfos(bvids);
         return Result.ok(size);
+    }
+
+    @GetMapping("/infos")
+    public Result getInfos() {
+        String param = "js";
+        List<InfoPagesExt> videoInfos = infoService.getVideoInfos(param);
+        return Result.ok(videoInfos.size());
     }
 }

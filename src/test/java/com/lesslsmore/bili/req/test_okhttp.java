@@ -18,9 +18,11 @@ import static com.lesslsmore.bili.common.Utils.*;
 
 public class test_okhttp {
     @Test
-    public void test_get_bvids() throws IOException {
-//        List<SpaceVlist> bvids = getUserSpace("302417610", 3);
-//        System.out.println(bvids);
+    public void test_getUserSpace() throws IOException {
+        //        302417610 11
+//        SpaceResp resp = getUserSpace("302417610", 3);
+        SpaceResp resp = getUserSpace("302417610", 12);
+        System.out.println(resp);
     }
 
     @Test

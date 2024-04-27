@@ -1,31 +1,18 @@
 package com.lesslsmore.bili.db;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 import com.lesslsmore.bili.entity.video.InfoPagesExt;
-import com.lesslsmore.bili.entity.user.SpaceResp;
-import com.lesslsmore.bili.entity.user.SpaceVlist;
-import com.lesslsmore.bili.entity.video.InfoPages;
-import com.lesslsmore.bili.entity.video.InfoResp;
 import com.lesslsmore.bili.mapper.InfoPagesExtMapper;
-import com.lesslsmore.bili.service.InfoPagesExtService;
-import com.lesslsmore.bili.service.InfoPagesService;
 import com.lesslsmore.bili.controller.MybatisPlusService;
-import com.lesslsmore.bili.service.SpaceVlistService;
-import com.lesslsmore.bili.service.user.SpaceService;
-import com.lesslsmore.bili.service.video.InfoService;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-
-import static com.lesslsmore.bili.common.Utils.readFile;
-import static com.lesslsmore.bili.common.Utils.resp2infoPagesExts;
 
 @SpringBootTest
 public class mybatis_plus_test {
@@ -33,77 +20,7 @@ public class mybatis_plus_test {
     private InfoPagesExtMapper infoPagesExtMapper;
     @Autowired
     private MybatisPlusService mybatisPlusService;
-    @Autowired
-    public SpaceVlistService spaceVlistService;
-    @Autowired
-    public InfoPagesService infoPagesService;
-    @Autowired
-    public InfoPagesExtService infoPagesExtService;
-    @Autowired
-    public SpaceService spaceService;
-    @Autowired
-    public InfoService infoService;
 
-    @Test
-    public void test_saveUserSpace() {
-        List<String> bvids = spaceService.saveUserSpace("302417610", 3);
-        System.out.println(bvids);
-    }
-    @Test
-    public void test_saveUserSpaces() throws ExecutionException, InterruptedException {
-        List<String> bvids = spaceService.saveUserSpaces("302417610", 14);
-        System.out.println(bvids);
-
-        // let mid = '37974444'
-        // let pn = 17
-    }
-    @Test
-    public void test_saveVideoInfo() {
-        int size = infoService.saveVideoInfo("BV1a4411B7V9");
-        System.out.println(size);
-    }
-
-    @Test
-    public void test_resp2object() throws IOException {
-        String path = "E:\\T\\Documents\\VSCode\\proj\\vue\\vue3-ts-web-proj\\nodejs-bili-part-video-search\\up\\302417610\\page\\1.json";
-        String s = readFile(path);
-        // 使用 FastJSON 解析 JSON 字符串为 JSONObject
-        JSONObject jsonObject = JSON.parseObject(s);
-
-        // 将 JSONObject 转换为 Java 对象
-        SpaceResp resp = jsonObject.toJavaObject(SpaceResp.class);
-        List<SpaceVlist> vlist = resp.getData().getList().getVlist();
-
-        boolean b = spaceVlistService.saveBatch(vlist);
-//        List<String> bvids = Arrays.stream().map(bvid -> bvid.getBvid()).collect(Collectors.toList());
-        System.out.println(vlist);
-    }
-
-    @Test
-    public void test_resp2object_videoinfo() throws IOException {
-        String path = "E:\\T\\Documents\\VSCode\\proj\\vue\\vue3-ts-web-proj\\nodejs-bili-part-video-search\\up\\302417610\\bvid\\BV1a4411B7V9.json";
-        String s = readFile(path);
-        // 使用 FastJSON 解析 JSON 字符串为 JSONObject
-        JSONObject jsonObject = JSON.parseObject(s);
-
-        // 将 JSONObject 转换为 Java 对象
-        InfoResp resp = jsonObject.toJavaObject(InfoResp.class);
-//        List<InfoPages> pages = resp.getData().getPages();
-
-        List<InfoPagesExt> infoPagesExts = resp2infoPagesExts(resp);
-        boolean saved = infoPagesExtService.saveBatch(infoPagesExts);
-        System.out.println(infoPagesExts);
-
-//        boolean b = infoPagesService.saveBatch(pages);
-////        List<String> bvids = Arrays.stream().map(bvid -> bvid.getBvid()).collect(Collectors.toList());
-//        System.out.println(pages);
-    }
-
-    @Test
-    public void test_get_vlist() throws IOException {
-        List<SpaceVlist> vlist = spaceVlistService.list();
-        System.out.println(vlist);
-    }
 
     @Test
     public void testSelectPage() {

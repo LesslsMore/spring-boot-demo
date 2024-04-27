@@ -1,7 +1,20 @@
 server:
   port: 8088
 
+# KafkaProperties
 spring:
+  kafka:
+#    bootstrap-servers: 172.18.48.1:9092
+    bootstrap-servers: localhost:9092
+    consumer:
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      group-id: test-consumer-group
+      enable-auto-commit: true
+      auto-commit-interval: 3000
+#    producer:
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 #  data:
 #    mongodb:
 #      uri: mongodb://127.0.0.1:27017/bili
@@ -19,13 +32,13 @@ spring:
 #    driver-class-name: org.sqlite.JDBC
 #    url: jdbc:sqlite::resource:sqlite/music.db
 
-  redis:
-    host: localhost
-    port: 6379
-    password: 123456
-    lettuce:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
-        max-wait: 100ms
+#  redis:
+#    host: localhost
+#    port: 6379
+#    password: 123456
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        min-idle: 0
+#        max-wait: 100ms

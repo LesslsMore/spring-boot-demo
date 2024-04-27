@@ -22,9 +22,9 @@ public class SpaceVlist {
     private long created;
     private String length;
     private int video_review;
-    private long aid;
     @TableId
-    private String bvid;
+    private long aid;
+    private String bvid; // 不唯一
     private boolean hide_click;
     private int is_pay;
     private int is_union_video;
