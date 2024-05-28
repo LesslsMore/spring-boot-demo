@@ -1,8 +1,10 @@
 server:
-  port: 8088
+  port: 9000
 
 # KafkaProperties
 spring:
+  main:
+    allow-circular-references: true
   kafka:
 #    bootstrap-servers: 172.18.48.1:9092
     bootstrap-servers: localhost:9092

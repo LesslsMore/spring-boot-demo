@@ -1,7 +1,7 @@
 package com.lesslsmore.bili.service.user;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lesslsmore.bili.config.KafkaProducer;
+//import com.lesslsmore.bili.config.KafkaProducer;
 import com.lesslsmore.bili.entity.user.SpaceResp;
 import com.lesslsmore.bili.entity.user.SpaceVlist;
 import com.lesslsmore.bili.service.SpaceVlistService;
@@ -23,8 +23,8 @@ public class SpaceService {
     public SpaceVlistService spaceVlistService;
     @Autowired
     public ExecutorService executorService;
-    @Autowired
-    private KafkaProducer kafkaProducer;
+//    @Autowired
+//    private KafkaProducer kafkaProducer;
 
     public List<String> saveUserSpace(String mid, Integer pn) {
         //        log.info("setSpace", mid, pn);
@@ -35,7 +35,7 @@ public class SpaceService {
         // 放数据库异步
         // 消息队列？ 生产者 消费者
         List<String> bvids = vlist.stream().map(spaceVlist -> spaceVlist.getBvid()).collect(Collectors.toList());
-        kafkaProducer.send("bvids", bvids);
+//        kafkaProducer.send("bvids", bvids);
         return bvids;
     }
 

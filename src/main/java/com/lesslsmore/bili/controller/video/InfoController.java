@@ -1,28 +1,16 @@
-package com.lesslsmore.bili.controller.user;
+package com.lesslsmore.bili.controller.video;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lesslsmore.bili.common.result.Result;
-import com.lesslsmore.bili.controller.MybatisPlusService;
 import com.lesslsmore.bili.entity.ListReq;
 import com.lesslsmore.bili.entity.video.InfoPagesExt;
-import com.lesslsmore.bili.entity.user.SpaceVlist;
-import com.lesslsmore.bili.entity.video.InfoResp;
-import com.lesslsmore.bili.mapper.SpaceVlistMapper;
-import com.lesslsmore.bili.service.InfoPagesExtService;
-import com.lesslsmore.bili.service.SpaceVlistService;
 import com.lesslsmore.bili.service.user.SpaceService;
 import com.lesslsmore.bili.service.video.InfoService;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import static com.lesslsmore.bili.common.API.*;
-import static com.lesslsmore.bili.common.Utils.resp2infoPagesExts;
 
 //@Slf4j
 @RequestMapping("/video")
@@ -49,7 +37,20 @@ public class InfoController {
     @GetMapping("/infos")
     public Result getInfos() {
         String param = "js";
-        List<InfoPagesExt> videoInfos = infoService.getVideoInfos(param);
-        return Result.ok(videoInfos.size());
+        Integer pageNum = 1;
+        Integer pageSize = 10;
+        com.github.pagehelper.Page<InfoPagesExt> infos = infoService.getVideoInfos(param, pageNum, pageSize);
+        return Result.ok(infos.getResult());
+    }
+
+    @PostMapping("/list/{page}/{size}")
+    public Result list(@PathVariable int page,
+                       @PathVariable int size,
+                       @RequestBody ListReq req) {
+//        LOGGER.error("get name", name);
+        Page pageSize = new Page(page, size);
+        Page userPage = infoService.list(pageSize, req);
+//        itemCache.get(req, key ->  mybatisPlusService.list(pageSize, req));
+        return Result.ok(userPage);
     }
 }

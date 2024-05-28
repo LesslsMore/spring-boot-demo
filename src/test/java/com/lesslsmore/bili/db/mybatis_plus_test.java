@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import com.lesslsmore.bili.entity.video.InfoPagesExt;
 import com.lesslsmore.bili.mapper.InfoPagesExtMapper;
-import com.lesslsmore.bili.controller.MybatisPlusService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,6 @@ import java.util.*;
 public class mybatis_plus_test {
     @Autowired
     private InfoPagesExtMapper infoPagesExtMapper;
-    @Autowired
-    private MybatisPlusService mybatisPlusService;
-
 
     @Test
     public void testSelectPage() {
@@ -43,11 +39,6 @@ public class mybatis_plus_test {
         System.out.println(total);
         System.out.println(hasNext);
         System.out.println(hasPrevious);
-    }
-    @Test
-    public void test_query() {
-//        Page<PageDO> query = mybatisPlusService.list("npm", 1, 10);
-//        System.out.println(query);
     }
     @Test
     public void list() {

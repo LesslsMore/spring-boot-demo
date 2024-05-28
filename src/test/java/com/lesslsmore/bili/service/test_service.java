@@ -38,8 +38,6 @@ public class test_service {
     public void test_getVideoInfos() throws IOException {
         List<InfoPagesExt> infos = infoService.getVideoInfos("restful");
         System.out.println(infos.size());
-        String pathname = "InfoPagesExt.xlsx";
-        saveExcel(infos, pathname);
     }
 
     @Test
